@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-tracking-system-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb-tracking-system-deployment
+  template:
+    metadata:
+      labels:
+        app: mongodb-tracking-system-deployment
+    spec:
+      containers:
+      - name: mongodb-tracking-system-deployment
+        image: mongo:6.0
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongodb-storage
+          mountPath: /data/db
+      volumes:
+      - name: mongodb-storage
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-tracking-system-service
+spec:
+  selector:
+    app: mongodb-tracking-system-deployment
+  ports:
+  - port: 27017
+    targetPort: 27017
+  type: ClusterIP
+ 
+ 

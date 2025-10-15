@@ -1,0 +1,22 @@
+version: '3.8'
+ 
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: tracking-system-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+  backend:
+    build: .
+    container_name: tracking-system-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://localhost:27017/logistics-tracker
+    depends_on:
+      - mongo
+ 
+volumes:
+  mongo-data:

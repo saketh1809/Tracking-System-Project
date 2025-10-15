@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracking-system-project
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tracking-system-project
+  template:
+    metadata:
+      labels:
+        app: tracking-system-project
+    spec:
+      containers:
+      - name: tracking-system-project
+        image: saketh1809/tracking-system-project:v1.1.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGODB_URI
+          value: "mongodb://localhost:27017/logistics-tracker"
+        - name: PORT
+          value: "3000"
+        - name: HOST
+          value: "0.0.0.0"
+        - name: NODE_ENV
+          value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracking-system-project-service
+spec:
+  selector:
+    app: tracking-system-project
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: LoadBalancer
