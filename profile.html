@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - TrackShip India</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary: #FF9933;  /* Saffron - from Indian flag */
+            --secondary: #138808; /* Green - from Indian flag */
+            --accent: #000080;    /* Navy blue - from Indian flag */
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --danger: #e53e3e;
+        }
+        
+        body {
+            background-color: var(--light);
+        }
+        
+        .gradient-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .dark-mode {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        
+        .dark-mode .bg-white {
+            background-color: #2d3748;
+        }
+        
+        .dark-mode .text-gray-800 {
+            color: #e2e8f0;
+        }
+        
+        .dark-mode .text-gray-600 {
+            color: #cbd5e0;
+        }
+        
+        .dark-mode .bg-gray-50 {
+            background-color: #2d3748;
+        }
+        
+        .dark-mode .bg-gray-100 {
+            background-color: #374151;
+        }
+        
+        .notification {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .profile-avatar {
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 153, 51, 0.2);
+        }
+        
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .indian-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF9933' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300 indian-pattern">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-40 transition-colors duration-300">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="relative">
+                        <i class="fas fa-shipping-fast text-3xl text-orange-600"></i>
+                        <span class="absolute -top-1 -right-1 w-3 h-3 bg-green-600 rounded-full border-2 border-white"></span>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold text-gray-800">TrackShip</span>
+                        <span class="text-lg font-bold text-green-600">India</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-orange-600 transition font-medium">Home</a>
+                    <a href="track.html" class="text-gray-600 hover:text-orange-600 transition font-medium">Track</a>
+                    <a href="services.html" class="text-gray-600 hover:text-orange-600 transition font-medium">Services</a>
+                    <a href="about.html" class="text-gray-600 hover:text-orange-600 transition font-medium">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-orange-600 transition font-medium">Contact</a>
+                    <button onclick="toggleDarkMode()" class="text-gray-600 hover:text-orange-600 transition">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <!-- User Account Section -->
+                    <div id="userAccountSection">
+                        <!-- This will be populated by JavaScript -->
+                    </div>
+                </div>
+                <button class="md:hidden text-gray-600" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Profile Header -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <div class="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+                    <!-- Avatar -->
+                    <div class="profile-avatar">
+                        <div class="w-32 h-32 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-orange-600 text-5xl"></i>
+                        </div>
+                        <button class="mt-4 text-orange-600 hover:underline text-sm">
+                            Change Photo
+                        </button>
+                    </div>
+                    
+                    <!-- User Info -->
+                    <div class="flex-1 text-center md:text-left">
+                        <h1 class="text-3xl font-bold text-gray-800 mb-2" id="profileFullName">Loading...</h1>
+                        <p class="text-gray-600 mb-4" id="profileEmail">Loading...</p>
+                        
+                        <div class="flex flex-wrap justify-center md:justify-start gap-4 mb-6">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-orange-600">24</div>
+                                <p class="text-sm text-gray-600">Shipments</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-green-600">18</div>
+                                <p class="text-sm text-gray-600">Delivered</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">4.8</div>
+                                <p class="text-sm text-gray-600">Rating</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap justify-center md:justify-start gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">Verified</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Since Jan 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <!-- Tab Navigation -->
+                <div class="border-b flex">
+                    <button class="tab-button active px-6 py-4 font-medium" onclick="switchTab('personal')">
+                        Personal Information
+                    </button>
+                    <button class="tab-button px-6 py-4 font-medium" onclick="switchTab('security')">
+                        Security
+                    </button>
+                    <button class="tab-button px-6 py-4 font-medium" onclick="switchTab('preferences')">
+                        Preferences
+                    </button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="p-8">
+                    <!-- Personal Information Tab -->
+                    <div id="personalTab" class="tab-content">
+                        <form id="profileForm" onsubmit="updateProfile(event)">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">First Name</label>
+                                    <input type="text" name="firstName" id="profileFirstName" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Last Name</label>
+                                    <input type="text" name="lastName" id="profileLastName" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Email</label>
+                                    <input type="email" name="email" id="profileEmail" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500" readonly>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Phone</label>
+                                    <div class="flex">
+                                        <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+                                            +91
+                                        </span>
+                                        <input type="tel" name="phone" id="profilePhone" class="form-input flex-1 px-4 py-3 border rounded-r-lg focus:outline-none focus:border-orange-500">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Default Address</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Address Line 1</label>
+                                        <input type="text" name="address1" id="profileAddress1" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500" placeholder="Street address">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Address Line 2</label>
+                                        <input type="text" name="address2" id="profileAddress2" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500" placeholder="Apartment, suite, etc.">
+                                    </div>
+                                    <div class="grid md:grid-cols-3 gap-4">
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">City</label>
+                                            <input type="text" name="city" id="profileCity" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">State</label>
+                                            <select name="state" id="profileState" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500">
+                                                <option value="">Select State</option>
+                                                <option value="MH">Maharashtra</option>
+                                                <option value="KA">Karnataka</option>
+                                                <option value="DL">Delhi</option>
+                                                <option value="TN">Tamil Nadu</option>
+                                                <option value="WB">West Bengal</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">PIN Code</label>
+                                            <input type="text" name="pincode" id="profilePincode" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8">
+                                <button type="submit" class="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition font-semibold">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Security Tab -->
+                    <div id="securityTab" class="tab-content hidden">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Change Password</h3>
+                                <form onsubmit="changePassword(event)">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">Current Password</label>
+                                            <input type="password" name="currentPassword" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">New Password</label>
+                                            <input type="password" name="newPassword" minlength="8" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">Confirm New Password</label>
+                                            <input type="password" name="confirmPassword" class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500">
+                                        </div>
+                                        <button type="submit" class="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition font-semibold">
+                                            Update Password
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Two-Factor Authentication</h3>
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <div>
+                                            <p class="font-medium text-gray-800">Add an extra layer of security</p>
+                                            <p class="text-sm text-gray-600">Protect your account with 2FA</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-600"></div>
+                                        </label>
+                                    </div>
+                                    <button class="text-orange-600 hover:underline">Enable 2FA</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preferences Tab -->
+                    <div id="preferencesTab" class="tab-content hidden">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Notification Preferences</h3>
+                                <div class="space-y-3">
+                                    <label class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                        <div>
+                                            <p class="font-medium text-gray-800">Email Notifications</p>
+                                            <p class="text-sm text-gray-600">Receive updates via email</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer" checked>
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-600"></div>
+                                        </label>
+                                    </label>
+                                    <label class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                        <div>
+                                            <p class="font-medium text-gray-800">SMS Notifications</p>
+                                            <p class="text-sm text-gray-600">Get alerts on your phone</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-600"></div>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Language</h3>
+                                <select class="form-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-orange-500">
+                                    <option>English</option>
+                                    <option>हिंदी (Hindi)</option>
+                                    <option>বাংলা (Bengali)</option>
+                                    <option>తెలుగు (Telugu)</option>
+                                    <option>मराठी (Marathi)</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Theme</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <button onclick="setTheme('light')" class="p-4 border-2 border-orange-500 rounded-lg text-center">
+                                        <i class="fas fa-sun text-2xl text-yellow-500 mb-2"></i>
+                                        <p class="font-medium">Light</p>
+                                    </button>
+                                    <button onclick="setTheme('dark')" class="p-4 border rounded-lg text-center hover:border-gray-400">
+                                        <i class="fas fa-moon text-2xl text-gray-700 mb-2"></i>
+                                        <p class="font-medium">Dark</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="fixed top-20 right-6 z-50 space-y-2"></div>
+
+    <script>
+        // User Database Class
+        class UserDatabase {
+            constructor() {
+                this.users = JSON.parse(localStorage.getItem('trackshipUsers')) || [];
+            }
+            
+            // Update user
+            updateUser(userId, userData) {
+                const userIndex = this.users.findIndex(user => user.id === userId);
+                if (userIndex !== -1) {
+                    this.users[userIndex] = { ...this.users[userIndex], ...userData };
+                    localStorage.setItem('trackshipUsers', JSON.stringify(this.users));
+                    return this.users[userIndex];
+                }
+                return null;
+            }
+            
+            // Get user by ID
+            getUserById(id) {
+                return this.users.find(user => user.id === id);
+            }
+        }
+        
+        const userDB = new UserDatabase();
+        
+        // Check if user is logged in
+        window.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            
+            if (!currentUser) {
+                // User is not logged in, redirect to home page
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const user = JSON.parse(currentUser);
+            
+            // Load user profile data
+            loadUserProfile(user.id);
+            
+            // Update user account section in header
+            updateUserAccountSection();
+        });
+        
+        // Load user profile data
+        function loadUserProfile(userId) {
+            const user = userDB.getUserById(userId);
+            if (!user) return;
+            
+            // Update profile header
+            document.getElementById('profileFullName').textContent = user.fullName;
+            document.getElementById('profileEmail').textContent = user.email;
+            
+            // Update form fields
+            document.getElementById('profileFirstName').value = user.fullName.split(' ')[0] || '';
+            document.getElementById('profileLastName').value = user.fullName.split(' ')[1] || '';
+            document.getElementById('profileEmail').value = user.email;
+            document.getElementById('profilePhone').value = user.phone || '';
+            
+            // Load address if available
+            if (user.address) {
+                document.getElementById('profileAddress1').value = user.address.address1 || '';
+                document.getElementById('profileAddress2').value = user.address.address2 || '';
+                document.getElementById('profileCity').value = user.address.city || '';
+                document.getElementById('profileState').value = user.address.state || '';
+                document.getElementById('profilePincode').value = user.address.pincode || '';
+            }
+        }
+        
+        // Switch tabs
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(tabName + 'Tab').classList.remove('hidden');
+        }
+        
+        // Update profile
+        function updateProfile(event) {
+            event.preventDefault();
+            
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const formData = new FormData(event.target);
+            
+            const userData = {
+                fullName: formData.get('firstName') + ' ' + formData.get('lastName'),
+                address: {
+                    address1: formData.get('address1'),
+                    address2: formData.get('address2'),
+                    city: formData.get('city'),
+                    state: formData.get('state'),
+                    pincode: formData.get('pincode')
+                }
+            };
+            
+            // Update user in database
+            const updatedUser = userDB.updateUser(currentUser.id, userData);
+            
+            if (updatedUser) {
+                // Update current user session
+                localStorage.setItem('currentUser', JSON.stringify({
+                    id: updatedUser.id,
+                    email: updatedUser.email,
+                    fullName: updatedUser.fullName
+                }));
+                
+                // Update profile display
+                document.getElementById('profileFullName').textContent = updatedUser.fullName;
+                
+                showNotification('Profile updated successfully!', 'success');
+            } else {
+                showNotification('Failed to update profile. Please try again.', 'error');
+            }
+        }
+        
+        // Change password
+        function changePassword(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const currentPassword = formData.get('currentPassword');
+            const newPassword = formData.get('newPassword');
+            const confirmPassword = formData.get('confirmPassword');
+            
+            // Validate passwords
+            if (newPassword.length < 8) {
+                showNotification('Password must be at least 8 characters long', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('New passwords do not match', 'error');
+                return;
+            }
+            
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const user = userDB.getUserById(currentUser.id);
+            
+            // In a real app, you would hash the passwords and compare
+            // For demo, we'll just check if current password matches
+            if (user.password === currentPassword) {
+                // Update password
+                userDB.updateUser(currentUser.id, { password: newPassword });
+                showNotification('Password updated successfully!', 'success');
+                event.target.reset();
+            } else {
+                showNotification('Current password is incorrect', 'error');
+            }
+        }
+        
+        // Set theme
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+            localStorage.setItem('darkMode', theme === 'dark');
+            showNotification(`Theme changed to ${theme} mode`, 'success');
+        }
+        
+        // Update user account section in header
+        function updateUserAccountSection() {
+            const currentUser = localStorage.getItem('currentUser');
+            const userAccountSection = document.getElementById('userAccountSection');
+            
+            if (currentUser) {
+                const user = JSON.parse(currentUser);
+                userAccountSection.innerHTML = `
+                    <div class="user-dropdown">
+                        <button onclick="toggleUserMenu()" class="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition">
+                            <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-orange-600"></i>
+                            </div>
+                            <span class="font-medium">${user.fullName}</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div id="userMenu" class="user-menu">
+                            <a href="dashboard.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dashboard</a>
+                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Profile</a>
+                            <hr class="my-1">
+                            <button onclick="signOut()" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">Sign Out</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                userAccountSection.innerHTML = `
+                    <button onclick="openAuthModal()" class="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition font-medium">
+                        Sign In
+                    </button>
+                `;
+            }
+        }
+        
+        // Toggle user menu
+        function toggleUserMenu() {
+            const userMenu = document.getElementById('userMenu');
+            userMenu.classList.toggle('show');
+        }
+        
+        // Sign out
+        function signOut() {
+            localStorage.removeItem('currentUser');
+            showNotification('You have been signed out successfully.', 'success');
+            window.location.href = 'index.html';
+        }
+        
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            showNotification(isDark ? 'Dark mode enabled' : 'Light mode enabled', 'info');
+        }
+        
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            showNotification('Mobile menu would open here', 'info');
+        }
+        
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                warning: 'bg-yellow-500',
+                info: 'bg-orange-500'
+            };
+            
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+            
+            notification.className = `notification ${colors[type]} text-white px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3`;
+            notification.innerHTML = `
+                <i class="fas ${icons[type]}"></i>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const userDropdown = document.querySelector('.user-dropdown');
+            const userMenu = document.getElementById('userMenu');
+            
+            if (userDropdown && !userDropdown.contains(event.target)) {
+                userMenu.classList.remove('show');
+            }
+        });
+        
+        // Initialize dark mode from localStorage
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+</body>
+</html>
