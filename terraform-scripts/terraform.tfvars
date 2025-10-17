@@ -1,4 +1,4 @@
-region = "ap-northeast-3"
+region = "ap-northeast-2"
 
 vpc_cidr = "10.0.0.0/16"
 
@@ -10,9 +10,9 @@ public_subnet_cidrs = [
 ]
 
 availability_zones = [
-  "ap-northeast-3a",
-  "ap-northeast-3b",
-  "ap-northeast-3c"
+  "ap-northeast-2a",
+  "ap-northeast-2b",
+  "ap-northeast-2c"
 ]
 
 destination_cidr_block = "0.0.0.0/0"
@@ -22,7 +22,7 @@ node_desired_size = 3
 node_min_size = 3
 node_max_size = 5
 instance_type = "t3.medium"
-key_name = "kartik-Key-value-Pair"
+key_name = "vikasini-Key"
 
 
 ami_id_linux  = "ami-029b307384d6998bb"
@@ -35,5 +35,5 @@ instance_types = {
 tags = {
   Environment = "Dev"
   Project     = "Tracking-System"
-  Owner       = "Satya"
+  Owner       = "Saketh"
 }
